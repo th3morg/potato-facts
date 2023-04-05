@@ -1,0 +1,22 @@
+name: Deploy potato-facts # This name appears in the Actions screen in the GitHub UI.
+
+on:
+  push: # What triggers a deployment. For example, `push`.
+    branches:
+      - main # What branch triggers a deployment. For example, `main`.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Armory CD-as-a-Service Deployment
+        id: deploy
+        uses: armory/cli-deploy-action@main
+        with:
+          clientId: ${{ secrets.ARMORY_CLIENT_ID }}
+          clientSecret:  ${{ secrets.ARMORY_CLIENT_SECRET }}
+          path-to-file: /deployment.yaml
+          waitForDeployment: true
